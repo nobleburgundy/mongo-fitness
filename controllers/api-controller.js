@@ -46,9 +46,5 @@ router.get("/api/workouts/range", (req, res) => {
     });
 });
 
-router.get("/stats", (req, res) => {
-  res.sendFile(path.join(__dirname, "../public/stats.html"));
-});
-
 // Export the routes for use in server.js
 module.exports = router;
