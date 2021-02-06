@@ -15,8 +15,8 @@ app.use(express.json());
 
 const api_controller = require("./controllers/api-controller");
 
-app.use(api_controller);
 app.use(express.static("public"));
+app.use(api_controller);
 
 mongoose.connect(process.env.MONGODB_URI || "mongodb://localhost/workout", { useNewUrlParser: true });
 

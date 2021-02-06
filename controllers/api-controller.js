@@ -3,8 +3,20 @@ const router = express.Router();
 const db = require("../models");
 const mongoose = require("mongoose");
 const mongo = require("mongodb");
+const path = require("path");
 
 router.get("/api/workouts", (req, res) => {
+  db.Workout.find({})
+    .then((workouts) => {
+      res.json(workouts);
+    })
+    .catch((err) => {
+      res.json(err);
+    });
+});
+
+router.get("/api/workouts/range", (req, res) => {
+  console.log(req);
   db.Workout.find({})
     .then((workouts) => {
       res.json(workouts);
@@ -26,22 +38,16 @@ router.get("/api/workouts/:id", (req, res) => {
 
 router.get("/api/workouts/range", (req, res) => {
   db.Workout.find({})
-    .then((workouts) => {
-      res.json(workouts);
-    })
-    .catch((err) => {
-      res.json(err);
-    });
-});
-
-router.get("/api/exercises", (req, res) => {
-  db.Exercise.find({})
     .then((exercises) => {
       res.json(exercises);
     })
     .catch((err) => {
       res.json(err);
     });
+});
+
+router.get("/stats", (req, res) => {
+  res.sendFile(path.join(__dirname, "../public/stats.html"));
 });
 
 // Export the routes for use in server.js
