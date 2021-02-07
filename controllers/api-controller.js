@@ -49,7 +49,7 @@ router.get("/api/workouts/range", (req, res) => {
 
 // POST routes
 router.post("/api/workouts", (req, res) => {
-  db.Workout.create({ day: new Date().now, exercises: [] })
+  db.Workout.create({ exercises: [] })
     .then((result) => {
       res.json(result);
     })
