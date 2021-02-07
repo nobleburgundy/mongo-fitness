@@ -12,19 +12,32 @@ const API = {
     return json[json.length - 1];
   },
   async addExercise(data) {
-    const id = location.search.split("=")[1];
+    let json;
+    if (location.search) {
+      const id = location.search.split("=")[1];
+      const res = await fetch("/api/workouts/" + id, {
+        method: "PUT",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(data),
+      });
 
-    const res = await fetch("/api/workouts/" + id, {
-      method: "PUT",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(data),
-    });
-
-    const json = await res.json();
+      json = await res.json();
+    } else {
+      console.log("addExercise data = ", data);
+      // doesn't exist, create it...
+      const res = await ("/api/workouts/",
+      {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(data),
+      });
+      return await res.json();
+    }
 
     return json;
   },
   async createWorkout(data = {}) {
+    console.log("createWorkout", data);
     const res = await fetch("/api/workouts", {
       method: "POST",
       body: JSON.stringify(data),
