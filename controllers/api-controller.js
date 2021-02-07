@@ -5,6 +5,7 @@ const mongoose = require("mongoose");
 const mongo = require("mongodb");
 const path = require("path");
 
+// GET Routes
 router.get("/api/workouts", (req, res) => {
   db.Workout.find({})
     .then((workouts) => {
@@ -40,6 +41,42 @@ router.get("/api/workouts/range", (req, res) => {
   db.Workout.find({})
     .then((exercises) => {
       res.json(exercises);
+    })
+    .catch((err) => {
+      res.json(err);
+    });
+});
+
+// POST routes
+router.post("/api/workouts", (req, res) => {
+  db.Workout.create({ day: new Date().now, exercises: [] })
+    .then((result) => {
+      res.json(result);
+    })
+    .catch((err) => {
+      res.json(err);
+    });
+});
+
+// PUT route
+router.put("/api/workouts/:id", (req, res) => {
+  const exercise = {};
+  if (req.body.type === "cardio") {
+    exercise.type = "cardio";
+    exercise.name = req.body.name;
+    exercise.distance = req.body.distance;
+    exercise.duration = req.body.duration;
+  } else {
+    exercise.type = "resistance";
+    exercise.name = req.body.name;
+    exercise.weight = req.body.weight;
+    exercise.duration = req.body.duration;
+    exercise.reps = req.body.reps;
+    exercise.sets = req.body.sets;
+  }
+  db.Workout.updateOne({ _id: mongo.ObjectID(req.params.id) }, { $push: { exercises: exercise } })
+    .then((result) => {
+      res.json(result);
     })
     .catch((err) => {
       res.json(err);
