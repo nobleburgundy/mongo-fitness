@@ -1,10 +1,7 @@
 const Workout = require("../models/Workout");
-const mockingoose = require("mockingoose");
-// import mockingoose from "mockingoose";
 
 describe("Get all workouts", () => {
   afterEach(() => {
-    // mockingoose.resetAll();
     jest.clearAllMocks();
   });
   it("Should validate", async () => {
