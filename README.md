@@ -3,7 +3,7 @@
 ![Code Size](https://img.shields.io/github/languages/code-size/nobleburgundy/mongo-fitness?color=blue)
 ![Repo Size](https://img.shields.io/github/repo-size/nobleburgundy/mongo-fitness?color=blue)
 ![Lines of Code](https://img.shields.io/tokei/lines/github/nobleburgundy/mongo-fitness?color=blue)
-![Travis Build Status](https://travis-ci.com/nobleburgundy/mongo-fitness.svg?branch=main?color=blue)
+![Travis Build Status](https://travis-ci.com/nobleburgundy/mongo-fitness.svg?branch=main)
  [![MIT License](https://img.shields.io/apm/l/atomic-design-ui.svg?color=red)](https://github.com/nobleburgundy/mongo-fitness/blob/master/LICENSE)
 
 
