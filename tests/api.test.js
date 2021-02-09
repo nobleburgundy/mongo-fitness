@@ -20,7 +20,7 @@ app.put("/api/workouts/:id", (req, res) => {
   res.status(200).json(res.body);
 });
 
-let testWorkout = {
+const testWorkout = {
   day: Date.now,
   exercises: [
     {
@@ -57,14 +57,16 @@ describe("Api routes", () => {
       .send(testWorkout)
       .expect(200)
       .end((err, res) => {
-        if (err) return done(err);
+        if (err) {
+          return done(err);
+        }
         console.log(res.body);
         done();
       });
   });
 
   it("PUT /api/workouts/:id", (done) => {
-    let testWorkoutEdit = {
+    const testWorkoutEdit = {
       day: new Date().setDate(new Date().getDate() - 10),
       exercises: [
         {

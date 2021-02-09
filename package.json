@@ -5,6 +5,8 @@
   "main": "server.js",
   "scripts": {
     "test": "jest",
+    "lint": "eslint --quiet .",
+    "lintfix": "npm run lint -- --fix",
     "start": "node server.js",
     "watch": "nodemon server.js",
     "seed": "node seeders/seed.js"

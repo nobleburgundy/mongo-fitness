@@ -96,7 +96,7 @@ function validateInputs() {
 async function handleFormSubmit(event) {
   event.preventDefault();
 
-  let workoutData = {};
+  const workoutData = {};
 
   if (workoutType === "cardio") {
     workoutData.type = "cardio";
@@ -139,7 +139,7 @@ if (workoutTypeSelect) {
   workoutTypeSelect.addEventListener("change", handleWorkoutTypeChange);
 }
 if (completeButton) {
-  completeButton.addEventListener("click", function (event) {
+  completeButton.addEventListener("click", (event) => {
     shouldNavigateAway = true;
     handleFormSubmit(event);
   });
