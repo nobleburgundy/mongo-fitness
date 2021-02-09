@@ -8,12 +8,15 @@ const request = require("supertest");
 const app = express();
 app.use("/api", serverRoutes);
 app.get("/api/workouts", (req, res) => {
-  res.status(200).json({ day: Date.now, exercises: [] });
+  res.status(200).json(testWorkout);
 });
 app.get("/api/workouts/range", (req, res) => {
   res.status(200).json(res.body);
 });
 app.post("/api/workouts", (req, res) => {
+  res.status(200).json(res.body);
+});
+app.put("/api/workouts/:id", (req, res) => {
   res.status(200).json(res.body);
 });
 
@@ -56,7 +59,6 @@ describe("Api routes", () => {
       .end((err, res) => {
         if (err) return done(err);
         console.log(res.body);
-        testWorkout = res.body;
         done();
       });
   });
@@ -75,6 +77,7 @@ describe("Api routes", () => {
         },
       ],
     };
+
     request(app)
       .put("/api/workouts/" + testWorkout._id)
       .send(testWorkoutEdit)
