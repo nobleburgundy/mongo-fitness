@@ -37,10 +37,12 @@ function populateChart(data) {
   const durations = duration(data);
   const pounds = calculateTotalWeight(data);
   const workouts = workoutNames(data);
+  const days = calculateDays(data);
   const colors = generatePalette();
   console.log("durations", durations);
   console.log("pounds", pounds);
   console.log("workouts", workouts);
+  console.log("days", days);
 
   const line = document.querySelector("#canvas").getContext("2d");
   const bar = document.querySelector("#canvas2").getContext("2d");
@@ -50,7 +52,7 @@ function populateChart(data) {
   const lineChart = new Chart(line, {
     type: "line",
     data: {
-      labels: ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"],
+      labels: days,
       datasets: [
         {
           label: "Workout Duration In Minutes",
@@ -90,7 +92,7 @@ function populateChart(data) {
   const barChart = new Chart(bar, {
     type: "bar",
     data: {
-      labels: ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"],
+      labels: days,
       datasets: [
         {
           label: "Pounds",
@@ -177,9 +179,11 @@ function duration(data) {
   const durations = [];
 
   data.forEach((workout) => {
-    workout.exercises.forEach((exercise) => {
-      durations.push(exercise.duration);
-    });
+    const totalDuration = workout.exercises.map((e) => e.duration).reduce((a, b) => a + b);
+    durations.push(totalDuration);
+    // workout.exercises.forEach((exercise) => {
+    //   durations.push(exercise.duration);
+    // });
   });
 
   return durations;
@@ -189,9 +193,11 @@ function calculateTotalWeight(data) {
   const total = [];
 
   data.forEach((workout) => {
-    workout.exercises.forEach((exercise) => {
-      total.push(exercise.weight);
-    });
+    const totalWeight = workout.exercises.map((e) => e.duration).reduce((a, b) => a + b);
+    total.push(totalWeight);
+    // workout.exercises.forEach((exercise) => {
+    //   total.push(exercise.weight);
+    // });
   });
 
   return total;
@@ -207,4 +213,30 @@ function workoutNames(data) {
   });
 
   return workouts;
+}
+
+function calculateDays(data) {
+  const days = [];
+
+  data.forEach((workout) => {
+    const day = new Date(workout.day).getDay();
+    days.push(dayIndexMap(day));
+  });
+
+  return days;
+}
+
+function dayIndexMap(index) {
+  const map = {
+    0: "Sunday",
+    1: "Monday",
+    2: "Tuesday",
+    3: "Wednesday",
+    4: "Thursday",
+    5: "Friday",
+    6: "Saturday",
+    7: "Sunday",
+  };
+
+  return map[index];
 }
