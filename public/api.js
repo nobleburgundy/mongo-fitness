@@ -7,7 +7,6 @@ const API = {
       console.log(err);
     }
     const json = await res.json();
-    console.log("getLastWorkout", json);
 
     return json[json.length - 1];
   },
@@ -23,7 +22,6 @@ const API = {
 
       json = await res.json();
     } else {
-      console.log("addExercise data = ", data);
       // doesn't exist, create it...
       const res = await ("/api/workouts/",
       {
@@ -37,7 +35,6 @@ const API = {
     return json;
   },
   async createWorkout(data = {}) {
-    console.log("createWorkout", data);
     const res = await fetch("/api/workouts", {
       method: "POST",
       body: JSON.stringify(data),

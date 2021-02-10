@@ -5,7 +5,6 @@ fetch("/api/workouts/range")
     return response.json();
   })
   .then((data) => {
-    console.log("range populate", data);
     populateChart(data);
   });
 
@@ -39,10 +38,6 @@ function populateChart(data) {
   const workouts = workoutNames(data);
   const days = calculateDays(data);
   const colors = generatePalette();
-  console.log("durations", durations);
-  console.log("pounds", pounds);
-  console.log("workouts", workouts);
-  console.log("days", days);
 
   const line = document.querySelector("#canvas").getContext("2d");
   const bar = document.querySelector("#canvas2").getContext("2d");
