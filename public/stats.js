@@ -205,8 +205,12 @@ function calculateDays(data) {
   const days = [];
 
   data.forEach((workout) => {
+    const date = new Date(workout.day).getDate();
+    // getMonth() returns months 0-11, so add one
+    const month = new Date(workout.day).getMonth() + 1;
     const day = new Date(workout.day).getDay();
-    days.push(dayIndexMap(day));
+    const dateFormat = `${dayIndexMap(day)} ${month}/${date}`;
+    days.push(dateFormat);
   });
 
   return days;
@@ -214,14 +218,14 @@ function calculateDays(data) {
 
 function dayIndexMap(index) {
   const map = {
-    0: "Sunday",
-    1: "Monday",
-    2: "Tuesday",
-    3: "Wednesday",
-    4: "Thursday",
-    5: "Friday",
-    6: "Saturday",
-    7: "Sunday",
+    0: "Sun",
+    1: "Mon",
+    2: "Tue",
+    3: "Wed",
+    4: "Thu",
+    5: "Fri",
+    6: "Sat",
+    7: "Sun",
   };
 
   return map[index];
