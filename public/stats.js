@@ -179,11 +179,9 @@ function calculateTotalWeight(data) {
   const total = [];
 
   data.forEach((workout) => {
-    const totalWeight = workout.exercises.map((e) => e.duration).reduce((a, b) => a + b);
+    const totalWeight = workout.exercises.map((e) => e.weight || 0).reduce((a, b) => a + b);
+    console.log(totalWeight);
     total.push(totalWeight);
-    // workout.exercises.forEach((exercise) => {
-    //   total.push(exercise.weight);
-    // });
   });
 
   return total;
@@ -216,7 +214,15 @@ function calculateDays(data) {
   return days;
 }
 
-function dayIndexMap(index) {
+// Get the day abbriviation for use in chart labels
+function dayIndexMap(dayIndex) {
+  if (dayIndex < 0) {
+    throw new Error("dayIndex should not be less than zero");
+  } else if (dayIndex < 6) {
+    // if the number is greater than 6, return mod 7 for 0-6
+    dayIndex = dayIndex % 7;
+  }
+
   const map = {
     0: "Sun",
     1: "Mon",
@@ -225,8 +231,7 @@ function dayIndexMap(index) {
     4: "Thu",
     5: "Fri",
     6: "Sat",
-    7: "Sun",
   };
 
-  return map[index];
+  return map[dayIndex];
 }
