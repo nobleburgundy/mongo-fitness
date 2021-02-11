@@ -1,13 +1,30 @@
-// get all workout data from back-end
+// default value for data range
+let dataLimit = "7";
 
-fetch("/api/workouts/range")
-  .then((response) => {
-    return response.json();
-  })
-  .then((data) => {
-    populateChart(data);
-  });
+// listen for change on the range dropdown
+document.getElementById("dataLimitSelect").addEventListener("change", () => {
+  dataLimit = document.getElementById("dataLimitSelect").value;
+  fetchWorkoutData();
+});
 
+fetchWorkoutData = () => {
+  fetch("/api/workouts/range")
+    .then((response) => {
+      return response.json();
+    })
+    .then((data) => {
+      // if the dataLimit is set to 'all' don't filter the data
+      if (dataLimit !== "all") {
+        dataLimit = parseInt(dataLimit);
+        dataLimitDate = new Date().setDate(new Date().getDate() - dataLimit);
+        // filter the data to the last 'dataLimit' days
+        data = data.filter((e) => new Date(e.day) >= new Date(dataLimitDate));
+      }
+      populateChart(data);
+    });
+};
+
+fetchWorkoutData();
 API.getWorkoutsInRange();
 
 function generatePalette() {
@@ -32,6 +49,7 @@ function generatePalette() {
 
   return arr;
 }
+
 function populateChart(data) {
   const durations = duration(data);
   const pounds = calculateTotalWeight(data);
@@ -160,22 +178,21 @@ function duration(data) {
   const durations = [];
 
   data.forEach((workout) => {
-    const totalDuration = workout.exercises.map((e) => e.duration).reduce((a, b) => a + b);
+    const totalDuration = workout.exercises.map((e) => e.duration).reduce(reducer);
     durations.push(totalDuration);
-    // workout.exercises.forEach((exercise) => {
-    //   durations.push(exercise.duration);
-    // });
   });
 
   return durations;
 }
 
+reducer = (a, b) => a + b;
+
 function calculateTotalWeight(data) {
   const total = [];
 
   data.forEach((workout) => {
-    const totalWeight = workout.exercises.map((e) => e.weight || 0).reduce((a, b) => a + b);
-    console.log(totalWeight);
+    // grab the weight if it's present, or 0 (for cardio)
+    const totalWeight = workout.exercises.map((e) => e.weight || 0).reduce(reducer);
     total.push(totalWeight);
   });
 
