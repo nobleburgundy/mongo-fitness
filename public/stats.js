@@ -1,5 +1,9 @@
 // default value for data range
 let dataLimit = "7";
+let lineChart;
+let barChart;
+let pieChart;
+let donutChart;
 
 // listen for change on the range dropdown
 document.getElementById("dataLimitSelect").addEventListener("change", () => {
@@ -20,8 +24,23 @@ fetchWorkoutData = () => {
         // filter the data to the last 'dataLimit' days
         data = data.filter((e) => new Date(e.day) >= new Date(dataLimitDate));
       }
+      // To fix an issue with previous charts artifacts cause weird hover issues
+      // If the chart is 'defined' destroy it (it's the old version), then re-poulate it
+      if (typeof lineChart !== "undefined") {
+        destroyCharts();
+      }
       populateChart(data);
     });
+};
+
+// Fixes issue with previous chart artifacts after updating data range
+destroyCharts = () => {
+  if (typeof lineChart !== "undefined") {
+    lineChart.destroy();
+    barChart.destroy();
+    pieChart.destroy();
+    donutChart.destroy();
+  }
 };
 
 fetchWorkoutData();
@@ -62,7 +81,7 @@ function populateChart(data) {
   const pie = document.querySelector("#canvas3").getContext("2d");
   const pie2 = document.querySelector("#canvas4").getContext("2d");
 
-  const lineChart = new Chart(line, {
+  lineChart = new Chart(line, {
     type: "line",
     data: {
       labels: days,
@@ -102,7 +121,7 @@ function populateChart(data) {
     },
   });
 
-  const barChart = new Chart(bar, {
+  barChart = new Chart(bar, {
     type: "bar",
     data: {
       labels: days,
@@ -133,7 +152,7 @@ function populateChart(data) {
     },
   });
 
-  const pieChart = new Chart(pie, {
+  pieChart = new Chart(pie, {
     type: "pie",
     data: {
       labels: workouts,
@@ -153,7 +172,7 @@ function populateChart(data) {
     },
   });
 
-  const donutChart = new Chart(pie2, {
+  donutChart = new Chart(pie2, {
     type: "doughnut",
     data: {
       labels: workouts,
