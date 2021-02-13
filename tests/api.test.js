@@ -1,27 +1,16 @@
-const express = require("express");
-const serverRoutes = require("../controllers/api-controller");
-const request = require("supertest");
+const app = require("../server");
+const supertest = require("supertest");
+const request = supertest(app);
+const Workout = require("../models/Workout");
+const mongo = require("mongodb");
 
 // Good example of testing api with express...
 // https://stackoverflow.com/questions/30109806/how-to-test-put-method-using-supertest-and-jasmine-node
-
-const app = express();
-app.use("/api", serverRoutes);
-// app.get("/api/workouts", (req, res) => {
-//   res.status(200).json(testWorkout);
-// });
-// app.get("/api/workouts/range", (req, res) => {
-//   res.status(200).json(res.body);
-// });
-// app.post("/api/workouts", (req, res) => {
-//   res.status(200).json(res.body);
-// });
-// app.put("/api/workouts/:id", (req, res) => {
-//   res.status(200).json(res.body);
-// });
+// another helpful example....
+// https://zellwk.com/blog/endpoint-testing/
 
 const testWorkout = {
-  day: Date.now,
+  day: new Date(),
   exercises: [
     {
       type: "resistance",
@@ -31,60 +20,33 @@ const testWorkout = {
       reps: 10,
       sets: 4,
     },
-    {
-      type: "resistance",
-      name: "Lateral Pull",
-      duration: 20,
-      weight: 300,
-      reps: 10,
-      sets: 4,
-    },
   ],
 };
 
 describe("Api routes", () => {
-  it("GET /api/workouts", async () => {
-    const { body } = await request(app).get("/api/workouts", (result) => console.log(result));
-    // expect("Content-Type", /json/).expect(200, done);
-    console.log(body);
-    expect(body).toBeGreaterThan(0);
+  it("GET /api/workouts", async (done) => {
+    const response = await request.get("/api/workouts");
+    expect(response.body.length).toBeGreaterThan(0);
+    expect(response.status).toBe(200);
+    done();
   });
 
-  // it("GET /api/workouts/range", (done) => {
-  //   request(app).get("/api/workouts/range").expect(200, done);
-  // });
+  it("GET /api/workouts/range", async (done) => {
+    const res = await request.get("/api/workouts/range");
+    expect(res.body.length).toBeGreaterThan(0);
+    expect(res.status).toBe(200);
+    done();
+  });
 
-  // it("POST /api/workouts", (done) => {
-  //   request(app)
-  //     .post("/api/workouts")
-  //     .send(testWorkout)
-  //     .expect(200)
-  //     .end((err, res) => {
-  //       if (err) {
-  //         return done(err);
-  //       }
-  //       done();
-  //     });
-  // });
+  it("POST /api/workouts", async (done) => {
+    const res = await request.post("/api/workouts").send(testWorkout);
+    const workout = await Workout.findOne({ _id: mongo.ObjectId(res.body._id) }).lean();
+    expect(workout.day).toBeTruthy();
+    expect(workout._id).toBeTruthy();
+    done();
+  });
+});
 
-  // it("PUT /api/workouts/:id", (done) => {
-  //   const testWorkoutEdit = {
-  //     day: new Date().setDate(new Date().getDate() - 10),
-  //     exercises: [
-  //       {
-  //         type: "resistance",
-  //         name: "Squat",
-  //         duration: 20,
-  //         weight: 300,
-  //         reps: 10,
-  //         sets: 4,
-  //       },
-  //     ],
-  //   };
-
-  //   request(app)
-  //     .put("/api/workouts/" + testWorkout._id)
-  //     .send(testWorkoutEdit)
-  //     .expect(200, done);
-  // });
+afterAll(async (done) => {
+  done();
 });
