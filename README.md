@@ -1,9 +1,9 @@
 # Mongo Fitness Tracker
+
 ![Top Language](https://img.shields.io/github/languages/top/nobleburgundy/mongo-fitness?color=blue)
 ![Lines of Code](https://img.shields.io/tokei/lines/github/nobleburgundy/mongo-fitness?color=blue)
 ![Travis Build Status](https://travis-ci.com/nobleburgundy/mongo-fitness.svg?branch=main)
- [![MIT License](https://img.shields.io/apm/l/atomic-design-ui.svg?color=red)](https://github.com/nobleburgundy/mongo-fitness/blob/master/LICENSE)
-
+[![MIT License](https://img.shields.io/apm/l/atomic-design-ui.svg?color=red)](https://github.com/nobleburgundy/mongo-fitness/blob/master/LICENSE)
 
 ## Table of Contents
 
@@ -14,7 +14,7 @@
 - [Contributing](#contributing)
 - [Tests](#tests)
 
-## Description 
+## Description
 
 A fitness tracking application using MongoDB, express, and node.
 
@@ -24,11 +24,13 @@ A fitness tracking application using MongoDB, express, and node.
 2. From the project root, run `npm install`.
 3. Run the application with `node server.js`
 
-
-## Usage 
+## Usage
 
 The live production version of the site is available [here](https://james-fitness-tracker.herokuapp.com/).
 
+### Demo
+
+![demo](demo.gif)
 
 ## Credits
 
@@ -48,7 +50,6 @@ Contributions are welcome. If you are interested in contributing to this project
 
 Run `npm run test` from the project root.
 
-
-## Questions? 
+## Questions?
 
 Please contact me via email at goul0076@gmail.com with any questions.
