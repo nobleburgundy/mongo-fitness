@@ -19,8 +19,6 @@ cache:
 services:
   - mongodb
 script:
-  #   ## print all Travis environment variables for debugging
-  - $(npm bin)/print-env TRAVIS
   # Run start in the background
   - npm run start &
   - npm run test
