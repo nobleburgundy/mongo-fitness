@@ -18,3 +18,6 @@ cache:
     - node_modules
 services:
   - mongodb
+script:
+  - npm run start
+  - npm run test
