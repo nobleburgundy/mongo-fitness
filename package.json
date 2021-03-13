@@ -4,13 +4,14 @@
   "description": "",
   "main": "server.js",
   "scripts": {
-    "test": "jest --verbose && npm run cy",
+    "test": "jest --verbose && npm run cy:chrome",
     "lint": "eslint --quiet .",
     "lintfix": "npm run lint -- --fix",
     "start": "node server.js",
     "watch": "nodemon server.js",
     "seed": "node seeders/seed.js",
-    "cy": "cypress run"
+    "cy": "cypress run",
+    "cy:chrome": "cypress run --browser chrome --headless"
   },
   "author": "",
   "license": "ISC",

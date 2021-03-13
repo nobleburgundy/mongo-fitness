@@ -23,7 +23,7 @@ script:
   - $(npm bin)/print-env TRAVIS
   # Run start in the background
   - npm run start &
-  - npm run cy
+  - npm run test
   # after all tests finish running we need
   # to kill all background jobs (like "npm start &")
   - kill $(jobs -p) || true
